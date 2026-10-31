@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+JAR_FILE="${SCRIPT_DIR}/target/ghosttrace-1.2.0.jar"
+
+if [ ! -f "${JAR_FILE}" ]; then
+    echo "GhostTrace jar not found. Building with Maven..."
+    mvn package -DskipTests -f "${SCRIPT_DIR}/pom.xml"
+fi
+
+exec java --enable-native-access=ALL-UNNAMED -jar "${JAR_FILE}" "$@"
